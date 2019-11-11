@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class SomeController {
+public class UserController {
 
     private final UserService userService;
     @GetMapping("/users/{id}")
