@@ -1,7 +1,7 @@
 package com.trustmeenglish.core.model;
 
 import lombok.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -24,7 +24,7 @@ public class User {
     private String password;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "users_roles",
+            name= "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
