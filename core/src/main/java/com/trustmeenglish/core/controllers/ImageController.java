@@ -9,11 +9,14 @@ import com.trustmeenglish.core.model.Image;
 import com.trustmeenglish.core.services.EnWordService;
 import com.trustmeenglish.core.services.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 
@@ -27,16 +30,23 @@ public class ImageController {
     @GetMapping("/images/{id}")
     public ResponseEntity<?> getImage(@PathVariable Long id) throws IOException {
         Image image = imageService.getImage(id);
-        ImageDTO imageDTO = imageMapper.toDTO(image);
-        return new ResponseEntity<>(imageDTO, HttpStatus.OK);
+        return  ResponseEntity.ok()
+                .header("fileName",image.getOriginalFilename())
+                .contentType(MediaType.valueOf(image.getContentType()))
+                .contentLength(image.getSize())
+                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
     }
 
     @PostMapping("/images")
     public ResponseEntity<?> saveImage(@RequestParam("file") MultipartFile file) throws IOException{
         Image image = imageMapper.toEntity(file);
         image = imageService.saveImage(image);
-        ImageDTO imageDTO = imageMapper.toDTO(image);
-        return new ResponseEntity<>(imageDTO, HttpStatus.CREATED);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("fileName",image.getOriginalFilename())
+                .contentType(MediaType.valueOf(image.getContentType()))
+                .contentLength(image.getSize())
+                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
 
     }
 
