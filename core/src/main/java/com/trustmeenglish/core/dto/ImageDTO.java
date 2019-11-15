@@ -9,6 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 public class ImageDTO {
     private Long id;
-
+    private String name;
+    private String originalFilename;
+    private String contentType;
+    private long size;
+    private byte[] bytes;
 
 }

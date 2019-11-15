@@ -34,7 +34,7 @@ public class ImageController {
                 .header("fileName",image.getOriginalFilename())
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .contentLength(image.getSize())
-                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
+                .body(image.getBytes());
     }
 
     @PostMapping("/images")
@@ -46,7 +46,7 @@ public class ImageController {
                 .header("fileName",image.getOriginalFilename())
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .contentLength(image.getSize())
-                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
+                .body(image.getBytes());
 
     }
 

@@ -76,10 +76,23 @@ INSERT INTO `trustmeenglish`.`cards` (`en_word_id`,`ru_word_id`,`rating`) VALUES
 
 
 CREATE TABLE `trustmeenglish`.`images` (
-                                           `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-                                           `name` VARCHAR(45) NOT NULL,
-                                           `original_filename` VARCHAR(45) NOT NULL,
-                                           `content_type` VARCHAR(45) NOT NULL,
-                                           `size` BIGINT(20) NOT NULL,
-                                           `bytes` LONGBLOB NOT NULL,
-                                           PRIMARY KEY (`id`));
+`id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(45) NOT NULL,
+`original_filename` VARCHAR(45) NOT NULL,
+`content_type` VARCHAR(45) NOT NULL,
+`size` BIGINT(20) NOT NULL,
+`bytes` LONGBLOB NOT NULL,
+PRIMARY KEY (`id`));
+
+
+
+ALTER TABLE `trustmeenglish`.`cards`
+    ADD COLUMN `image_id` BIGINT(20) NULL AFTER `rating`,
+    ADD INDEX `fk_images_idx` (`image_id` ASC) VISIBLE;
+;
+ALTER TABLE `trustmeenglish`.`cards`
+    ADD CONSTRAINT `fk_images`
+        FOREIGN KEY (`image_id`)
+            REFERENCES `trustmeenglish`.`images` (`id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;

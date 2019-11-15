@@ -9,8 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 public class CardDTO {
     private Long id;
-    private EnWordDTO enWordDTO;
-    private RuWordDTO ruWordDTO;
+    private EnWordDTO enWord;
+    private RuWordDTO ruWord;
+    private ImageDTO image;
     private Long rating;
 
 }

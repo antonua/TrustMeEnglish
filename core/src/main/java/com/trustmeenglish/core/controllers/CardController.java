@@ -9,9 +9,11 @@ import com.trustmeenglish.core.model.EnWord;
 import com.trustmeenglish.core.services.CardService;
 import com.trustmeenglish.core.services.EnWordService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 
 @RestController
@@ -22,9 +24,18 @@ public class CardController {
     private final CardMapper cardMapper;
 
     @GetMapping("/cards/{id}")
-    public CardDTO getCardById(@PathVariable Long id){
+    public ResponseEntity getCardById(@PathVariable Long id) throws IOException {
         Card card = cardService.getCard(id);
-        return cardMapper.toDTO(card);
+        CardDTO cardDTO = cardMapper.toDTO(card);
+        return new ResponseEntity(cardDTO, HttpStatus.OK);
     }
 
+    @PostMapping("/cards")
+    public ResponseEntity<?> saveCard(@RequestBody CardDTO cardDTO) throws IOException {
+        Card card = cardMapper.toEntity(cardDTO);
+        card = cardService.addCard(card);
+        cardDTO = cardMapper.toDTO(card);
+        return new ResponseEntity<>(cardDTO, HttpStatus.CREATED);
+
+    }
 }

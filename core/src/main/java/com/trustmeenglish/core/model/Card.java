@@ -19,5 +19,9 @@ public class Card {
     private EnWord enWord;
     @ManyToOne
     private RuWord ruWord;
+
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
     private Long rating;
 }
